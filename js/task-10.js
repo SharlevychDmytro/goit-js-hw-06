@@ -5,18 +5,31 @@ const refs = {
   inputEl: document.querySelector("input"),
   createBtnEl: document.querySelector("button[data-create]"),
   destroyBtnEl: document.querySelector("button[data-destroy]"),
-  boxesEl: document.querySelector(".boxes"),
+  boxesEl: document.querySelector("#boxes"),
 };
 refs.inputEl.addEventListener("input", onInputValue);
-refs.createBtnEl.addEventListener("click", onCreateBoxes);
+refs.createBtnEl.addEventListener("click", onBtnCreate);
+refs.destroyBtnEl.addEventListener("click", onDestroyBoxes);
 function onInputValue() {
-  let numberValue = refs.inputEl.value;
-  console.log(numberValue);
-  onCreateBoxes(numberValue);
+  return Number(refs.inputEl.value);
 }
-
-function onCreateBoxes(amount) {
-  console.log(amount);
+function onBtnCreate() {
+  let currentValue = onInputValue();
+  createBoxes(currentValue);
 }
-
-console.log(refs.destroyBtnEl);
+function createBoxes(amount) {
+  let dives = [];
+  for (let i = 1; i <= amount; i += 1) {
+    const startPx = 20;
+    const growthPx = startPx + i * 10;
+    const div = document.createElement("div");
+    div.style.width = `${growthPx}px`;
+    div.style.height = `${growthPx}px`;
+    div.style.backgroundColor = getRandomHexColor();
+    dives.push(div);
+  }
+  refs.boxesEl.append(...dives);
+}
+function onDestroyBoxes() {
+  refs.boxesEl.innerHTML = "";
+}
